@@ -1,6 +1,6 @@
-source 'https://rubygems.org'
+source 'http://ruby.taobao.org'
 
-ruby '2.2.0'
+ruby '2.1.5'
 
 gem 'rails', '4.2.0'
 gem 'sass-rails', '~> 5.0'
@@ -16,6 +16,8 @@ gem 'figaro', '>= 1.0.0.rc1'
 gem 'mysql2'
 gem 'simple_form'
 gem 'upmin-admin'
+gem 'rest_client'
+gem 'skylight'
 
 group :development do
   gem 'better_errors'

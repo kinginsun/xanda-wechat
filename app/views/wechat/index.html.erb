@@ -1,10 +1,13 @@
+<%= request.remote_ip %>
+<%= debug @response %>
+<%= debug @payload %>
 <form class="form-horizontal">
   <legend>国内药品销售数据</legend>
   <div class="form-group">
     <label for="drug_name" class="col-sm-2 control-label">药品名称</label>
 
     <div class="col-sm-10">
-      <input type="text" class="form-control" id="drug_name" name="drug_name" >
+      <input type="text" class="form-control" id="drug_name" name="drug_name">
     </div>
   </div>
 
@@ -50,3 +53,25 @@
     </div>
   </div>
 </form>
+
+<%= link_to '微信支付', "javascript:void(0)", :id => 'wechat' %>
+<script Language="javascript">
+    document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
+        $('#wechat').click(function () {
+            WeixinJSBridge.invoke('getBrandWCPayRequest', {
+                "appId": "wx2421b1c4370ec43b",     //公众号名称，由商户传入
+                "timeStamp": " 1395712654",         //时间戳，自1970年以来的秒数
+                "nonceStr": "e61463f8efa94090b1f366cccfbbb444", //随机串
+                "package": "prepay_id=u802345jgfjsdfgsdg888",
+                "signType": "MD5",         //微信签名方式:
+                "paySign": "70EA570631E4BB79628FBCA90534C63FF7FADD89" //微信签名
+            }, function (response) {
+                if (response.err_msg == "get_brand_wcpay_request:ok") {
+                    alert('支付成功!');
+                } else {
+                    alert(response.err_msg);
+                }
+            });
+        });
+    }, false);
+</script>

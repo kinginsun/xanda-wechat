@@ -1,5 +1,7 @@
 class HomeController < ApplicationController
-  def index
 
+  def index
+    @search = BaseDrugHosp.new
   end
+
 end
