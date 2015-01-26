@@ -13,13 +13,38 @@ class WechatController < ApplicationController
   end
 
   def result
+
+    scope = BaseDrugHosp
+
+    scope = scope.where('drug_name LIKE ? ', "%#{params[:drug_name]}%") if params[:drug_name]
+    scope = scope.where('company LIKE ? ', "#{params[:company]}%") if params[:company]
+    scope = scope.where('city LIKE ? ', "#{params[:city]}%") if params[:city]
+    scope = scope.where(years: params[:year]) if params[:year]
+    scope = scope.where('big_class LIKE ? ', "#{params[:big_class]}%") if params[:big_class]
+
+    @query = Query.new
+    @query.rows = scope.count
+    @query.statement = scope.to_sql
+
+    if @query.rows.between?(1, 100)
+      @query.total_fee = 10*100
+    elsif @query.rows.between?(101, 200)
+      @query.total_fee = 20*100
+    elsif @query.rows > 200
+      @query.total_fee = 30*100
+    else
+      @query.total_fee = 0
+    end
+
+    @query.save
+
     options = {
         appid: @app_id,
         mch_id: @mch_id,
         nonce_str: SecureRandom.uuid.gsub('-', ''),
-        body: 'test',
-        out_trade_no: Time.now.to_i,
-        total_fee: 1,
+        body: '数据查询',
+        out_trade_no: @query.id,
+        total_fee: @query.total_fee,
         spbill_create_ip: request.remote_ip,
         notify_url: wechat_notify_url,
         trade_type: 'JSAPI',
@@ -48,7 +73,16 @@ class WechatController < ApplicationController
 
   def notify
     xml_data = Hash.from_xml(request.raw_post)
-    render text: '<xml><return_code>SUCCESS</return_code><return_msg>OK</return_msg></xml>'
+    data = xml_data['xml']
+
+    query = Query.find(data['out_trade_no'].to_i)
+
+    if data['total_fee'].to_i === query.total_fee
+      query.paid_at = Time.now
+      query.post_raw_data = request.raw_post
+      query.save
+      render text: '<xml><return_code>SUCCESS</return_code><return_msg>OK</return_msg></xml>'
+    end
   end
 
   def auth_return
