@@ -5,7 +5,7 @@ Rails.application.routes.draw do
 
   resources :queries do
     member do
-      match 'update_email', via: [:put, :post]
+      patch 'update_email'
     end
   end
 

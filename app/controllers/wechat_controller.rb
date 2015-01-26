@@ -1,10 +1,11 @@
 class WechatController < ApplicationController
-  before_action :set_keys, :auth_wechat_user
+  before_action :set_keys
+  before_action :auth_wechat_user, except: [:auth_return, :notify]
   skip_before_action :verify_authenticity_token
 
   def auth_wechat_user
     unless cookies[:open_id]
-      # redirect_to auth_url
+      redirect_to auth_url
     end
   end
 
