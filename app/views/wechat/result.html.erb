@@ -8,7 +8,8 @@
             $('#wechat').click(function () {
                 WeixinJSBridge.invoke('getBrandWCPayRequest', <%= raw @options.to_json %>, function (response) {
                     if (response.err_msg == "get_brand_wcpay_request:ok") {
-                        alert('支付成功!');
+                    alert('支付成功，请在下方输入您的Email');
+                    $('.edit_query').show();
                     } else {
                         // alert(response.err_msg);
                     }
@@ -16,4 +17,11 @@
             });
         }, false);
     </script>
+<% end %>
+
+<hr/>
+
+<%= simple_form_for(@query, url: '', html: {style: 'display: none'}) do |f| %>
+  <%= f.input :email %>
+  <%= f.button :submit, '将数据发到我的Email' %>
 <% end %>

@@ -13,14 +13,13 @@ class WechatController < ApplicationController
   end
 
   def result
-
     scope = BaseDrugHosp
 
-    scope = scope.where('drug_name LIKE ? ', "%#{params[:drug_name]}%") if params[:drug_name]
-    scope = scope.where('company LIKE ? ', "#{params[:company]}%") if params[:company]
-    scope = scope.where('city LIKE ? ', "#{params[:city]}%") if params[:city]
-    scope = scope.where(years: params[:year]) if params[:year]
-    scope = scope.where('big_class LIKE ? ', "#{params[:big_class]}%") if params[:big_class]
+    scope = scope.where('drug_name LIKE ? ', "%#{params[:drug_name]}%") if params[:drug_name].present?
+    scope = scope.where('company LIKE ? ', "#{params[:company]}%") if params[:company].present?
+    scope = scope.where('city LIKE ? ', "#{params[:city]}%") if params[:city].present?
+    scope = scope.where(years: params[:year]) if params[:year].present?
+    scope = scope.where('big_class LIKE ? ', "#{params[:big_class]}%") if params[:big_class].present?
 
     @query = Query.new
     @query.rows = scope.count
@@ -35,7 +34,7 @@ class WechatController < ApplicationController
     else
       @query.total_fee = 0
     end
-
+    @query.total_fee = 1
     @query.save
 
     options = {
@@ -60,7 +59,6 @@ class WechatController < ApplicationController
         }
     )
     @response = Hash.from_xml(response)
-
     @options = {
         appId: @app_id,
         timeStamp: Time.now.to_i.to_s,
