@@ -1,5 +1,6 @@
 class WechatController < ApplicationController
   before_action :set_keys, :auth_wechat_user
+  skip_before_action :verify_authenticity_token
 
   def auth_wechat_user
     unless cookies[:open_id]
@@ -17,7 +18,7 @@ class WechatController < ApplicationController
         mch_id: @mch_id,
         nonce_str: SecureRandom.uuid.gsub('-', ''),
         body: 'test',
-        out_trade_no: '10001',
+        out_trade_no: Time.now.to_i,
         total_fee: 1,
         spbill_create_ip: request.remote_ip,
         notify_url: wechat_notify_url,
@@ -46,7 +47,8 @@ class WechatController < ApplicationController
   end
 
   def notify
-
+    xml_data = Hash.from_xml(request.raw_post)
+    render text: '<xml><return_code>SUCCESS</return_code><return_msg>OK</return_msg></xml>'
   end
 
   def auth_return
