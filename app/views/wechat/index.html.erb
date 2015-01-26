@@ -51,7 +51,7 @@
   </div>
 </form>
 
-<%= link_to '微信支付', "javascript:void(0)", :id => 'wechat' %>
+<%= link_to '微信支付', "javascript:void(0)", :id => 'wechat', class: 'btn btn-primary' %>
 <script>
     document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
         $('#wechat').click(function () {
