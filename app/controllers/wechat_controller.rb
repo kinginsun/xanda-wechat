@@ -10,10 +10,9 @@ class WechatController < ApplicationController
 
     url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=#{@app_id}&secret=#{@app_secret}&code=#{code}&grant_type=authorization_code"
     response = RestClient.get(url)
+    json = JSON.parse(response)
 
-    Rails.logger.info(response)
-
-    open_id = response['openid']
+    open_id = json['openid']
     cookies[:open_id] = {value: open_id, httponly: true}
 
     redirect_to wechat_url
@@ -21,7 +20,6 @@ class WechatController < ApplicationController
 
   def index
     @search = BaseDrugHosp.new
-
     if cookies[:open_id]
       options = {
           appid: @app_id,
@@ -49,7 +47,7 @@ class WechatController < ApplicationController
       @options = {
           appId: @app_id,
           timeStamp: Time.now.to_i.to_s,
-          nonceStr: @response['xml']['nonce_str'],
+          nonceStr: SecureRandom.uuid.gsub('-', ''),
           package: "prepay_id=#{@response['xml']['prepay_id']}",
           signType: 'MD5'
       }
