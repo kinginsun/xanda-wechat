@@ -21,7 +21,7 @@
 
 <hr/>
 
-<%= simple_form_for(@query, url: '', html: {style: 'display: none'}) do |f| %>
+<%= simple_form_for(@query, url: update_email_query_path(@query), html: {style: 'display: none'}) do |f| %>
   <%= f.input :email %>
   <%= f.button :submit, '将数据发到我的Email' %>
 <% end %>

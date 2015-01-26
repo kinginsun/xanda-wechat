@@ -14,7 +14,6 @@ class WechatController < ApplicationController
 
   def result
     scope = BaseDrugHosp
-
     scope = scope.where('drug_name LIKE ? ', "%#{params[:drug_name]}%") if params[:drug_name].present?
     scope = scope.where('company LIKE ? ', "#{params[:company]}%") if params[:company].present?
     scope = scope.where('city LIKE ? ', "#{params[:city]}%") if params[:city].present?
@@ -34,7 +33,11 @@ class WechatController < ApplicationController
     else
       @query.total_fee = 0
     end
-    @query.total_fee = 1
+
+    # 如果为开发环境，只需支付 1 分钱
+    if Rails.env.development?
+      @query.total_fee = 1
+    end
     @query.save
 
     options = {
