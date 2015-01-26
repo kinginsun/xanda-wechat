@@ -1,4 +1,4 @@
-<form class="form-horizontal">
+<form class="form-horizontal" action="<%= wechat_result_path %>" method="get">
   <legend>国内药品销售数据</legend>
   <div class="form-group">
     <label for="drug_name" class="col-sm-2 control-label">药品名称</label>
@@ -50,18 +50,3 @@
     </div>
   </div>
 </form>
-
-<%= link_to '微信支付', "javascript:void(0)", :id => 'wechat', class: 'btn btn-primary' %>
-<script>
-    document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
-        $('#wechat').click(function () {
-            WeixinJSBridge.invoke('getBrandWCPayRequest', <%= raw @options.to_json %>, function (response) {
-                if (response.err_msg == "get_brand_wcpay_request:ok") {
-                    alert('支付成功!');
-                } else {
-                    // alert(response.err_msg);
-                }
-            });
-        });
-    }, false);
-</script>

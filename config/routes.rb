@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   root to: 'home#index'
 
   get 'wechat', to: 'wechat#index'
+  get 'wechat/result', to: 'wechat#result', as: :wechat_result
   get 'wechat/auth_return', to: 'wechat#auth_return'
   post 'wechat/notify', to: 'wechat#notify', as: :wechat_notify
 

@@ -1,0 +1,15 @@
+<p class="lead">共有XX条数据，您需要支付 元。</p>
+<%= link_to '微信支付', "javascript:void(0)", :id => 'wechat', class: 'btn btn-primary btn-block' %>
+<script>
+    document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
+        $('#wechat').click(function () {
+            WeixinJSBridge.invoke('getBrandWCPayRequest', <%= raw @options.to_json %>, function (response) {
+                if (response.err_msg == "get_brand_wcpay_request:ok") {
+                    alert('支付成功!');
+                } else {
+                    // alert(response.err_msg);
+                }
+            });
+        });
+    }, false);
+</script>
