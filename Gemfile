@@ -18,6 +18,7 @@ gem 'simple_form'
 gem 'upmin-admin'
 gem 'rest_client'
 gem 'skylight'
+gem 'awesome_print'
 
 group :development do
   gem 'better_errors'
