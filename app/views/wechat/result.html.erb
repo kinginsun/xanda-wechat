@@ -1,4 +1,4 @@
-<p class="lead">共有 <%= @query.rows %> 条数据，您需要支付 <%= @query.total_fee/100 %> 元。</p>
+<p class="lead">共有 <%= @query.rows %> 条数据，您需要支付 <%= @query.total_fee.to_d/100 %> 元。</p>
 
 <% if @query.total_fee > 0 %>
     <%= link_to '微信支付', "javascript:void(0)", :id => 'wechat', class: 'btn btn-primary btn-block' %>

@@ -100,8 +100,8 @@ class WechatController < ApplicationController
     redirect_to wechat_url
   end
 
-
   private
+
   # 生成 payload XML
   def make_payload(options)
     "<xml>#{options.sort.map { |k, v| "<#{k}>#{v}</#{k}>" }.join}<sign>#{generate_sign(options)}</sign></xml>"

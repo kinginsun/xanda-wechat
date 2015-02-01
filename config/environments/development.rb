@@ -28,10 +28,10 @@ Rails.application.configure do
   config.assets.debug = true
 
   config.action_mailer.smtp_settings = {
-    address: "smtp.126.com",
-    port: 465,
+    address: 'smtp.126.com',
+    port: 25,
     domain: 'smtp.126.com',
-    authentication: "plain",
+    authentication: :plain,
     enable_starttls_auto: true,
     user_name: Rails.application.secrets.email_provider_username,
     password: Rails.application.secrets.email_provider_password

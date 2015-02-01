@@ -16,16 +16,25 @@
 
 class Query < ActiveRecord::Base
 
+  def deliver_data!
+    QueryMailer.result(id).deliver_now
+  end
+
+  def result
+    BaseDrugHosp.find_by_sql(statement)
+  end
+
   def to_csv
     require 'csv'
-    result = BaseDrugHosp.find_by_sql(statement)
-    path = Rails.root.join('data', 'queries', id, '.csv')
-    CSV.open(path, "wb") do |csv|
+
+    path = Rails.root.join('data', 'queries', "#{id}.csv")
+    CSV.open(path, 'wb') do |csv|
       csv << BaseDrugHosp.attribute_names
       result.each do |item|
-        csv << user.attributes.values
+        csv << item.attributes.values
       end
     end
+
     path
   end
 
