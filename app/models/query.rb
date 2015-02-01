@@ -16,10 +16,6 @@
 
 class Query < ActiveRecord::Base
 
-  def deliver_data!
-    QueryMailer.result(id).deliver_now
-  end
-
   def result
     BaseDrugHosp.find_by_sql(statement)
   end

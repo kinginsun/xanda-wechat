@@ -10,7 +10,7 @@ class QueriesController < ApplicationController
 
     respond_to do |format|
       if @query.save
-        @query.deliver_data!
+        QueryMailer.result(@query.id).deliver_now
         format.html { redirect_to wechat_url, notice: "数据已经发送到 #{@query.email}" }
       else
         format.html { redirect_to wechat_url, alert: '更新失败，请联系管理员' }
