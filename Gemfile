@@ -1,4 +1,5 @@
-source 'http://ruby.taobao.org'
+# source 'http://ruby.taobao.org'
+source 'https://rubygems.org'
 
 ruby '2.1.5'
 
@@ -19,6 +20,7 @@ gem 'upmin-admin'
 gem 'rest_client'
 gem 'skylight'
 gem 'awesome_print'
+gem 'spreadsheet'
 
 group :development do
   gem 'better_errors'
