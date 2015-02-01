@@ -20,3 +20,8 @@
 ADMIN_NAME: First User
 ADMIN_EMAIL: user@example.com
 ADMIN_PASSWORD: changeme
+
+DOMAIN_NAME: xanda.cn
+email_provider_username: xandadb@126.com
+email_provider_password: xxxx
+email_guardian: xxxx
